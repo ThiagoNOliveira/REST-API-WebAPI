@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Http.Cors;
+using WebApiSample.Infrastructure;
 using WebApiSample.Models.Entities;
 using WebApiSample.Models.Repository;
 
@@ -32,7 +33,7 @@ namespace WebApiSample.Api.Version2
         /// <returns></returns>
         public string Put(Dictionary<string, object> product)
         {
-            var validator = new Validator<Product>();
+            IValidate<Product> validator = new Validator<Product>();
 
             List<string> erros;
             if (!validator.Validate(product.Keys.ToArray(), out erros))
