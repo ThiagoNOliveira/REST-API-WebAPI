@@ -1,4 +1,7 @@
-﻿using System.Web.Http.Cors;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Http.Cors;
 using WebApiSample.Models.Entities;
 using WebApiSample.Models.Repository;
 
@@ -20,6 +23,22 @@ namespace WebApiSample.Api.Version2
         public override Product Get(long id)
         {
             return Products.Get(id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        public string Put(Dictionary<string, object> product)
+        {
+            var validator = new Validator<Product>();
+
+            List<string> erros;
+            if (!validator.Validate(product.Keys.ToArray(), out erros))
+                throw new ValidationException(erros.ToString());
+
+            return "Ok";
         }
     }
 }
