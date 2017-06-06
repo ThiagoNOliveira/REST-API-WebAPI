@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Http.Filters;
+using System.Web.Mvc;
+using WebApiSample.Infrastructure.Filters;
 
 namespace WebApiSample
 {
@@ -7,6 +9,11 @@ namespace WebApiSample
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+        }
+
+        internal static void RegisterHttpFilters(HttpFilterCollection filters)
+        {
+            filters.Add(new ModelStateValidatorFilter());
         }
     }
 }

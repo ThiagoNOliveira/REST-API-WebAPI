@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using WebApiSample.Infrastructure;
 using WebApiSample.Models.Entities;
@@ -31,15 +34,9 @@ namespace WebApiSample.Api.Version2
         /// </summary>
         /// <param name="product"></param>
         /// <returns></returns>
-        public string Put(Dictionary<string, object> product)
+        public async Task<HttpResponseMessage> Put(Dictionary<string, object> product)
         {
-            IValidate<Product> validator = new Validator<Product>();
-
-            List<string> erros;
-            if (!validator.Validate(product.Keys.ToArray(), out erros))
-                throw new ValidationException(erros.ToString());
-
-            return "Ok";
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

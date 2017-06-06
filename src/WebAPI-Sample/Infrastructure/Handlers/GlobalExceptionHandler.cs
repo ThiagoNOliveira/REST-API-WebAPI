@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Security;
 using System.Threading;
@@ -10,20 +11,27 @@ using Newtonsoft.Json;
 
 namespace WebApiSample.Infrastructure.Handlers
 {
-    public class GlobalExceptionHandler : ExceptionHandler
+    public class GlobalExceptionHandler : ExceptionHandler, IExceptionHandler
     {
         public override void Handle(ExceptionHandlerContext context)
         {
             var requestId = HttpContext.Current.Items["RequestId"];
             var message = context.Exception.Message;
+            var exceptionData = context.Exception.Data;
+
+            HttpStatusCode statusCode;
+
+            if (context.Exception is SecurityException)
+                statusCode = HttpStatusCode.Unauthorized;
+            else if (context.Exception is InvalidOperationException)
+                statusCode = HttpStatusCode.Forbidden;
+            else
+                statusCode = HttpStatusCode.InternalServerError;
 
             context.Result = new ExceptionResponse
             {
-                StatusCode =
-                    context.Exception is SecurityException
-                        ? HttpStatusCode.Unauthorized
-                        : HttpStatusCode.InternalServerError,
-                Message = JsonConvert.SerializeObject(new {RequestId = requestId ?? "-", Message = message}),
+                StatusCode = statusCode,
+                Message = JsonConvert.SerializeObject(new { RequestId = requestId ?? "-", Message = message, Errors = exceptionData }),
                 Request = context.Request
             };
         }

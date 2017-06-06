@@ -15,7 +15,7 @@ using SDammann.WebApi.Versioning.Documentation;
 using SDammann.WebApi.Versioning.Request;
 using TinyIoC;
 using WebApiSample.Areas.HelpPage;
-using WebApiSample.Formatters;
+using WebApiSample.Infrastructure.Formatters;
 using WebApiSample.Infrastructure.Handlers;
 
 namespace WebApiSample
@@ -32,9 +32,7 @@ namespace WebApiSample
             config.Formatters.Add(new XmlFormatter(new QueryStringMapping("format", "xml", "application/xml")));
 
             // API Documentation
-            config.SetDocumentationProvider(
-                new XmlDocumentationProvider(
-                    HostingEnvironment.MapPath("~/bin/" + typeof(WebApiConfig).Assembly.GetName().Name + ".xml")));
+            config.SetDocumentationProvider(new XmlDocumentationProvider(HostingEnvironment.MapPath("~/bin/" + typeof(WebApiConfig).Assembly.GetName().Name + ".xml")));
 
             var dependencyContainer = new TinyIoCContainer();
 
@@ -50,12 +48,13 @@ namespace WebApiSample
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-            config.Routes.MapHttpRoute("DefaultApi", "api/v{version}/{controller}/{id}",
-                new {id = RouteParameter.Optional});
+            config.Routes.MapHttpRoute("DefaultApi", "api/v{version}/{controller}/{id}", new {id = RouteParameter.Optional});
 
             //Handlers
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
             config.MessageHandlers.Add(new LanguageNegotiationHandler());
+
+            FilterConfig.RegisterHttpFilters(config.Filters);
         }
 
         private sealed class DependencyResolver : IDependencyResolver

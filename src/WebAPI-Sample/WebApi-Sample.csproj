@@ -181,8 +181,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Formatters\CsvFormatter.cs" />
-    <Compile Include="Formatters\XmlFormatter.cs" />
+    <Compile Include="Infrastructure\Filters\ModelStateValidatorFilter.cs" />
+    <Compile Include="Infrastructure\Formatters\CsvFormatter.cs" />
+    <Compile Include="Infrastructure\Formatters\XmlFormatter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -190,10 +191,10 @@
     <Compile Include="Infrastructure\Handlers\LanguageNegotiationHandler.cs" />
     <Compile Include="Infrastructure\Handlers\ResourceOptionsHandler.cs" />
     <Compile Include="Infrastructure\HttpModules\UniqueRequestIdentifierModule.cs" />
-    <Compile Include="Infrastructure\IValidate.cs" />
+    <Compile Include="Infrastructure\ValidPropertyUpdateAttribute.cs" />
+    <Compile Include="Infrastructure\ModelUpdateAttribute.cs" />
     <Compile Include="Models\Entities\FileResult.cs" />
     <Compile Include="Models\Entities\Product.cs" />
-    <Compile Include="Models\Entities\Validator.cs" />
     <Compile Include="Models\Model\GetModel.cs" />
     <Compile Include="Models\Repository\Products.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

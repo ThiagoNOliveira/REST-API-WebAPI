@@ -6,7 +6,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace WebApiSample.Formatters
+namespace WebApiSample.Infrastructure.Formatters
 {
     public class CsvFormatter : BufferedMediaTypeFormatter
     {

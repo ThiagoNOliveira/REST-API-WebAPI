@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Formatting;
 
-namespace WebApiSample.Formatters
+namespace WebApiSample.Infrastructure.Formatters
 {
     public class XmlFormatter : XmlMediaTypeFormatter
     {
