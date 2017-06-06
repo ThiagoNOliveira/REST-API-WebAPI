@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApiSample.Infrastructure
+namespace WebApiSample.Infrastructure.Attributes
 {
     public class ModelChangeValidatorAttribute : ValidationAttribute
     {

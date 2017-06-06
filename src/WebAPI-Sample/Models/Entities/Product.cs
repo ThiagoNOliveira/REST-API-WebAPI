@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using WebApiSample.Infrastructure;
+using WebApiSample.Infrastructure.Attributes;
 
 namespace WebApiSample.Models.Entities
 {

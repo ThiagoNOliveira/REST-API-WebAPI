@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using WebApiSample.Infrastructure.Attributes;
 
 namespace WebApiSample.Infrastructure.Filters
 {
