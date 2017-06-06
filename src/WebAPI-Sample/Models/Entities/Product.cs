@@ -4,18 +4,18 @@ using WebApiSample.Infrastructure;
 namespace WebApiSample.Models.Entities
 {
     [DataContract]
-    [ModelUpdate]
+    [ModelChangeValidator]
     public class Product
     {
         [DataMember]
         public int? Id { get; set; }
 
         [DataMember]
-        [ValidPropertyUpdate]
+        [CanChangeValue]
         public string Name { get; set; }
 
         [DataMember]
-        [ValidPropertyUpdate]
+        [CanChangeValue]
         public string Category { get; set; }
 
         [DataMember]

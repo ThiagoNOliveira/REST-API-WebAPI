@@ -13,9 +13,9 @@ namespace WebApiSample.Infrastructure.Filters
             List<string> erros = null;
 
             var obj = actionContext.ActionArguments.Select(x => x.Value).Where(x => x.GetType()
-                .GetCustomAttributes(typeof(ModelUpdateAttribute), true).Any()).ToList();
+                .GetCustomAttributes(typeof(ModelChangeValidatorAttribute), true).Any()).ToList();
 
-            var valid = false;
+            var valid = true;
 
             foreach (var o in obj)
                 valid = Validator.Validate(o, out erros);
@@ -26,7 +26,12 @@ namespace WebApiSample.Infrastructure.Filters
             var exceptionData = new List<string>();
 
             foreach (var modelState in actionContext.ModelState.Values)
-                exceptionData.AddRange(modelState.Errors.Select(error => error.ErrorMessage));
+                exceptionData.AddRange(
+                    modelState.Errors.Select(
+                        error =>
+                            !string.IsNullOrWhiteSpace(error.ErrorMessage)
+                                ? error.ErrorMessage
+                                : error.Exception.Message));
 
             if (erros != null) exceptionData.AddRange(erros);
 
@@ -43,7 +48,7 @@ namespace WebApiSample.Infrastructure.Filters
             var properties = obj.GetType().GetProperties();
 
             var validProperties =
-                properties.Where(x => x.GetCustomAttributes(typeof(ValidPropertyUpdateAttribute), true).Length > 0)
+                properties.Where(x => x.GetCustomAttributes(typeof(CanChangeValueAttribute), true).Length > 0)
                     .Select(x => x.Name)
                     .ToArray();
             var propertiesChanged = properties.Where(y => y.GetValue(obj, null) != null).Select(x => x.Name).ToArray();

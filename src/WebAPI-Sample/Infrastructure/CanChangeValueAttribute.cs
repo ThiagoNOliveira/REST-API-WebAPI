@@ -2,7 +2,7 @@
 
 namespace WebApiSample.Infrastructure
 {
-    public class ValidPropertyUpdateAttribute : ValidationAttribute
+    public class CanChangeValueAttribute : ValidationAttribute
     {
         public override bool IsValid(object value)
         {

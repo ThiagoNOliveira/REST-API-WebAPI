@@ -191,8 +191,8 @@
     <Compile Include="Infrastructure\Handlers\LanguageNegotiationHandler.cs" />
     <Compile Include="Infrastructure\Handlers\ResourceOptionsHandler.cs" />
     <Compile Include="Infrastructure\HttpModules\UniqueRequestIdentifierModule.cs" />
-    <Compile Include="Infrastructure\ValidPropertyUpdateAttribute.cs" />
-    <Compile Include="Infrastructure\ModelUpdateAttribute.cs" />
+    <Compile Include="Infrastructure\CanChangeValueAttribute.cs" />
+    <Compile Include="Infrastructure\ModelChangeValidatorAttribute.cs" />
     <Compile Include="Models\Entities\FileResult.cs" />
     <Compile Include="Models\Entities\Product.cs" />
     <Compile Include="Models\Model\GetModel.cs" />
