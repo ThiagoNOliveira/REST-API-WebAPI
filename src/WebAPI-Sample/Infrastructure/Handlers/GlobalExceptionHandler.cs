@@ -24,7 +24,7 @@ namespace WebApiSample.Infrastructure.Handlers
             if (context.Exception is SecurityException)
                 statusCode = HttpStatusCode.Unauthorized;
             else if (context.Exception is InvalidOperationException)
-                statusCode = HttpStatusCode.Forbidden;
+                statusCode = HttpStatusCode.BadRequest;
             else
                 statusCode = HttpStatusCode.InternalServerError;
 
