@@ -190,7 +190,7 @@
     <Compile Include="Infrastructure\Handlers\GlobalExceptionHandler.cs" />
     <Compile Include="Infrastructure\Handlers\LanguageNegotiationHandler.cs" />
     <Compile Include="Infrastructure\Handlers\ResourceOptionsHandler.cs" />
-    <Compile Include="Infrastructure\HttpModules\UniqueRequestIdentifierModule.cs" />
+    <Compile Include="Infrastructure\Handlers\UniqueRequestIdentifierHandler.cs" />
     <Compile Include="Infrastructure\Attributes\CanChangeValueAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\ModelChangeValidatorAttribute.cs" />
     <Compile Include="Models\Entities\FileResult.cs" />
