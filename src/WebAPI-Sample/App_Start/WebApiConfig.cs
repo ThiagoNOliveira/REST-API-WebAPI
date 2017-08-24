@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http.Formatting;
-using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
 using System.Web.Http.Description;
@@ -14,7 +13,6 @@ using SDammann.WebApi.Versioning.Discovery;
 using SDammann.WebApi.Versioning.Documentation;
 using SDammann.WebApi.Versioning.Request;
 using TinyIoC;
-using WebApiSample.Areas.HelpPage;
 using WebApiSample.Infrastructure.Formatters;
 using WebApiSample.Infrastructure.Handlers;
 
@@ -24,21 +22,16 @@ namespace WebApiSample
     {
         public static void Register(HttpConfiguration config)
         {
-            // Cors
+            //Cors
             config.EnableCors();
 
             //Formaters
             config.Formatters.Add(new CsvFormatter(new QueryStringMapping("format", "csv", "text/csv")));
-            config.Formatters.Add(new XmlFormatter(new QueryStringMapping("format", "xml", "application/xml")));
-
-            // API Documentation
-            config.SetDocumentationProvider(
-                new XmlDocumentationProvider(
-                    HostingEnvironment.MapPath("~/bin/" + typeof(WebApiConfig).Assembly.GetName().Name + ".xml")));
+            //config.Formatters.Add(new XmlFormatter(new QueryStringMapping("format", "xml", "application/xml")));
 
             var dependencyContainer = new TinyIoCContainer();
 
-            // API versioning
+            //// API versioning
             config.Services.Replace(typeof(IHttpControllerSelector), new VersionedApiControllerSelector(config));
             config.Services.Replace(typeof(IApiExplorer), new VersionedApiExplorer(config));
             config.DependencyResolver = new DependencyResolver(dependencyContainer);
@@ -48,16 +41,23 @@ namespace WebApiSample
 
             ApiVersioning.Configure(config).ConfigureRequestVersionDetector<DefaultRouteKeyVersionDetector>();
 
-            // Web API routes
+            //// Web API routes
             config.MapHttpAttributeRoutes();
-            config.Routes.MapHttpRoute("DefaultApi", "api/v{version}/{controller}/{id}",
+            config.Routes.MapHttpRoute("DefaultApi", "v{version}/{controller}/{id}",
                 new {id = RouteParameter.Optional});
+            config.Routes.MapHttpRoute("Error404", "{*url}", new {controller = "Error", action = "Handle404"});
+            config.Routes.MapHttpRoute("Error405", "{*url}", new {controller = "Error", action = "Handle405"});
+
+            //Services
+            config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
+            //config.Services.Replace(typeof(IHttpControllerSelector), new HttpNotFoundAwareDefaultHttpControllerSelector(config));
+            //config.Services.Replace(typeof(IHttpActionSelector), new HttpNotFoundAwareControllerActionSelector());
 
             //Handlers
-            config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
-            config.MessageHandlers.Add(new UniqueRequestIdentifierHandler());
             config.MessageHandlers.Add(new LanguageNegotiationHandler());
+            config.MessageHandlers.Add(new UniqueRequestIdentifierHandler());
             config.MessageHandlers.Add(new ResourceOptionsHandler());
+            config.MessageHandlers.Add(new CompressionNegotiationHandler());
 
             FilterConfig.RegisterHttpFilters(config.Filters);
         }

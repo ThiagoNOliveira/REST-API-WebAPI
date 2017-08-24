@@ -73,7 +73,9 @@ namespace WebApiSample.Infrastructure.Formatters
             if (o == null) return "";
 
             var field = o.ToString();
-            return field.IndexOfAny(_specialChars) != -1 ? string.Format("\"{0}\"", field.Replace("\"", "\"\"")) : field;
+            return field.IndexOfAny(_specialChars) != -1
+                ? string.Format("\"{0}\"", field.Replace("\"", "\"\""))
+                : field;
         }
     }
 }

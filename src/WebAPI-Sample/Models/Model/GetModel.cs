@@ -9,12 +9,16 @@ namespace WebApiSample.Models.Model
         #region Properties
 
         public string Filter { get; set; }
+
         //Implement persistent/temporary filters
         public long? FilterKey { get; set; }
+
         public int Offset { get; set; } = 0;
         public int Limit { get; set; } = 20;
         public string Sort { get; set; }
+
         public string Fields { get; set; }
+
         //Implement this if you need to create different views with fixed fields specific
         //Restfull Web Services Cookbook - 8.1, pg 138
         public string View { get; set; }

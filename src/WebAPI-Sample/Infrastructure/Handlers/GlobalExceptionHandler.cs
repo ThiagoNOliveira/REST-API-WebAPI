@@ -13,13 +13,6 @@ namespace WebApiSample.Infrastructure.Handlers
 {
     public class GlobalExceptionHandler : ExceptionHandler, IExceptionHandler
     {
-        public override Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
-        {
-            Handle(context);
-
-            return base.HandleAsync(context, cancellationToken);
-        }
-
         public override void Handle(ExceptionHandlerContext context)
         {
             var requestId = HttpContext.Current.Items["RequestId"];
@@ -38,9 +31,12 @@ namespace WebApiSample.Infrastructure.Handlers
             context.Result = new ExceptionResponse
             {
                 StatusCode = statusCode,
-                Message =
-                    JsonConvert.SerializeObject(
-                        new {RequestId = requestId ?? "-", Message = message, Errors = exceptionData}),
+                Message = JsonConvert.SerializeObject(new
+                {
+                    RequestId = requestId ?? "-",
+                    Message = message,
+                    Errors = exceptionData
+                }),
                 Request = context.Request
             };
         }
